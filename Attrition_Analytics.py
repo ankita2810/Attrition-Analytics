@@ -38,7 +38,7 @@ def main():
     distance_from_home = st.slider('Distance From Home', min_value=1, max_value=30, value=10)
     education = st.selectbox("Education (Below college:1, College:2, Bachelors:3, Masters:4, Doctor:5))", [1, 2, 3, 4, 5])
     environment_satisfaction = st.slider('Environment Satisfaction', min_value=1, max_value=4, value=2)
-    gender = st.selectbox("Gender ('Male:0', 'Female:1')", [1, 2])
+    gender = st.selectbox("Gender ('Male:0', 'Female:1')", [0, 1])
     hourly_rate = st.slider('Hourly Rate', min_value=50, max_value=100, value=75)
     job_involvement = st.slider('Job Involvement', min_value=1, max_value=4, value=2)
     job_level = st.slider('Job Level', min_value=1, max_value=5, value=3)
