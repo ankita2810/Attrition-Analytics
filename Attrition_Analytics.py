@@ -74,7 +74,9 @@ def main():
         
         prediction_result = predict_attrition(input_data)
         st.text(prediction_result)
-        
+        prediction_probability = best_model.predict_proba(np.array(input_data).reshape(1, -1))
+        st.text(f'Probability of No Attrition: {prediction_probability[0, 0]:.4f}')
+        st.text(f'Probability of Attrition: {prediction_probability[0, 1]:.4f}')
         
 if __name__ == '__main__':
     main()
