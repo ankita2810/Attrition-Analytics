@@ -1,15 +1,8 @@
-import sklearn
 import numpy as np
 import pickle
 import streamlit as st
-import os
 
-# Get the absolute path to the model file
-model_path = os.path.join(os.path.dirname(__file__), 'Attrition_Analytics.sav')
-
-# Load the model
-with open(model_path, 'rb') as model_file:
-    load_model = pickle.load(model_file)
+load_model = pickle.load(open('Attrition_Analytics.sav', 'rb'))
 
 best_model = load_model.best_estimator_
 
