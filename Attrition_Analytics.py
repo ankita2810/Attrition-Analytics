@@ -2,7 +2,7 @@ import numpy as np
 import pickle
 import streamlit as st
 
-load_model = pickle.load(open('D:/Project/7th Sem/Attrition_Analytics.sav', 'rb'))
+load_model = pickle.load(open('WA_Fn-UseC_-HR-Employee-Attrition.csv', 'rb'))
 
 best_model = load_model.best_estimator_
 
