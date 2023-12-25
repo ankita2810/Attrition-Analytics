@@ -49,7 +49,7 @@ def main():
     num_companies_worked = st.slider('Num Companies Worked (number of companies worked)', min_value=0, max_value=10)
     over_18 = st.selectbox("Over 18 ('Yes:1', 'No:0')", [0, 1])
     over_time = st.selectbox("Over Time ('Yes:1', 'No:0')", [0, 1])
-    percent_salary_hike = st.text_input('Percent Salary Hike (percentage (0-25%) increase salary from one period to another)', min_value=0, max_value=25)
+    percent_salary_hike = st.slider('Percent Salary Hike (percentage (0-25%) increase salary from one period to another)', min_value=0, max_value=25)
     performance_rating = st.selectbox("Performance Rating ('Low:1', 'Good:2', 'Excellent:3', 'Outstanding:4')", [1, 2, 3, 4])
     relationship_satisfaction = st.selectbox("Relationship Satisfaction ('Low:1', 'Medium:2', 'High:3', 'Very High:4')", [1, 2, 3, 4])
     standard_hours = st.slider('Standard Hours (number of working hours per week)', min_value=30, max_value=120)
