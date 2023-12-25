@@ -53,9 +53,6 @@ def main():
     performance_rating = st.selectbox("Performance Rating ('Low:1', 'Good:2', 'Excellent:3', 'Outstanding:4')", [1, 2, 3, 4])
     relationship_satisfaction = st.selectbox("Relationship Satisfaction ('Low:1', 'Medium:2', 'High:3', 'Very High:4')", [1, 2, 3, 4])
     standard_hours = st.slider('Standard Hours (number of working hours per week)', min_value=30, max_value=120)
-    st.write("""**Stock Option Level**: This typically refers to the level or tier of stock options granted to an employee as part of their compensation package. 
-    Stock options provide employees with the right to purchase company stock at a predetermined price, 
-    often referred to as the "exercise price" or "strike price.""")
     stock_option_level = st.selectbox('Stock Option Level', [0, 1, 2, 3])
     total_working_years = st.slider('Total Working Years', min_value=0, max_value=40)
     training_times_last_year = st.slider('Training Times Last Year', min_value=0, max_value=10)
