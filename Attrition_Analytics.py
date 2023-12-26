@@ -282,7 +282,7 @@ else:
 
 
 # Ending 
-st.markdown('<div style="font-size: 24px; color: #9370DB; text-align: center;">Thank you!</div>', unsafe_allow_html=True)
+st.markdown('<div style="font-size: 24px; color: #9370DB; text-align: center;">Hope to see you soon :)</div>', unsafe_allow_html=True)
 
     
     
