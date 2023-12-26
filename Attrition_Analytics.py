@@ -19,7 +19,7 @@ if fl is not None:
     st.write(filename)
     df=pd.read_csv(filename, encoding="ISO-8859-1")
 else:
-    os.chdir(r"D:\Project\7th Sem")
+    os.chdir(r"WA_Fn-UseC_-HR-Employee-Attrition.csv")
     df=pd.read_csv("WA_Fn-UseC_-HR-Employee-Attrition.csv")
     
 col1, col2 = st.columns((2))
