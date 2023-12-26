@@ -163,6 +163,34 @@ with col2:
                    barmode='group', height=400,width=600)
         st.plotly_chart(fig)
 
+
+# Further analysis
+st.markdown("<br>", unsafe_allow_html=True)
+sns.set(style="whitegrid", palette="muted")
+
+# Selecting numerical features for plotting
+numerical_features = ['Age', 'DailyRate', 'DistanceFromHome', 'HourlyRate', 'MonthlyIncome', 'MonthlyRate',
+                       'NumCompaniesWorked', 'PercentSalaryHike', 'TotalWorkingYears', 'YearsAtCompany',
+                       'YearsInCurrentRole', 'YearsSinceLastPromotion', 'YearsWithCurrManager']
+
+# Streamlit app
+st.subheader("Distribution of Numerical Features by Attrition")
+
+# Sidebar for feature selection
+selected_features = st.sidebar.multiselect("Select Features:", numerical_features)
+
+# Check if features are selected
+if selected_features:
+    for feature in selected_features:
+        # Converting to Plotly
+        fig = px.histogram(df, x=feature, color='Attrition', 
+                           title=f'Distribution of {feature} by Attrition',
+                           marginal="rug",template="plotly_white", nbins=30, height=400, width=600) 
+        st.plotly_chart(fig)
+else:
+    st.warning("Please select one or more features from the left sidebar menu.")
+
+
 # prediction model
 import numpy as np
 import pickle
@@ -245,36 +273,6 @@ def main():
 if __name__ == '__main__':
     main()
 
-
-
-
-# Further analysis
-st.markdown("<br><br>", unsafe_allow_html=True)
-sns.set(style="whitegrid", palette="muted")
-
-# Selecting numerical features for plotting
-numerical_features = ['Age', 'DailyRate', 'DistanceFromHome', 'HourlyRate', 'MonthlyIncome', 'MonthlyRate',
-                       'NumCompaniesWorked', 'PercentSalaryHike', 'TotalWorkingYears', 'YearsAtCompany',
-                       'YearsInCurrentRole', 'YearsSinceLastPromotion', 'YearsWithCurrManager']
-
-# Streamlit app
-st.subheader("Distribution of Numerical Features by Attrition")
-
-# Sidebar for feature selection
-selected_features = st.sidebar.multiselect("Select Features:", numerical_features)
-
-# Check if features are selected
-if selected_features:
-    for feature in selected_features:
-        # Converting to Plotly
-        fig = px.histogram(df, x=feature, color='Attrition', 
-                           title=f'Distribution of {feature} by Attrition',
-                           marginal="rug",template="plotly_white", nbins=30, height=400, width=600) 
-        st.plotly_chart(fig)
-else:
-    st.warning("Please select one or more features from the left sidebar menu.")
-
-
 # Above the screen
 #st.markdown("""<style>.thank-you {position: fixed;bottom: 10px;left: 50%;transform: translateX(-50%);font-size: 24px;color: #333;}
 #    </style>""", unsafe_allow_html=True)
@@ -283,6 +281,7 @@ else:
 
 
 # Ending 
+st.markdown("<br><br>", unsafe_allow_html=True)
 st.markdown('<div style="font-size: 24px; color: #9370DB; text-align: center;">Hope to see you soon :)</div>', unsafe_allow_html=True)
 
     
