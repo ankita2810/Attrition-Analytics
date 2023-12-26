@@ -6,7 +6,7 @@ import os
 import warnings
 warnings.filterwarnings('ignore')
 
-st.set_page_config(page_title="Attrition Analysis & Prediction", page_icon=":bar_chart:", layout="wide")
+st.set_page_config(page_title="Attrition Analysis & Prediction", page_icon=":bar_chart:")
 st.title(':bar_chart: ATTRITION ANALYTICS: FUTURE-READY WORKFORCE')
 st.markdown('<style>div.block-container{padding-top:1rem;}</style>', unsafe_allow_html=True)
 
@@ -21,146 +21,143 @@ if fl is not None:
 else:
     df=pd.read_csv("WA_Fn-UseC_-HR-Employee-Attrition.csv")
     
-col1, col2 = st.columns((2))
+
 
 st.sidebar.header("Choose according to your choices: ")
 
 ef=st.sidebar.multiselect('Select Education Field:', df['EducationField'].unique())
 filtered_data = df[df['EducationField'].isin(ef)]
 
-with col1:
-    st.subheader("Attrition across Education Field")
-    if filtered_data.empty:
-        st.warning("Select education field(s) from left sidebar menu to see data.")
-    else:
-        fig = px.bar(filtered_data,
-                    x="EducationField",
-                   color="Attrition",title="Count of Education Field by Attrition",
-                  labels={"EducationField": "Education Field", "value": "Count"},
-                 category_orders={"EducationField": ef},barmode="group", height=400, width=600)
-        st.plotly_chart(fig)
+
+st.subheader("Attrition across Education Field")
+if filtered_data.empty:
+    st.warning("Select education field(s) from left sidebar menu to see data.")
+else:
+    fig = px.bar(filtered_data,
+                x="EducationField",
+               color="Attrition",title="Count of Education Field by Attrition",
+              labels={"EducationField": "Education Field", "value": "Count"},
+             category_orders={"EducationField": ef},barmode="group", height=400, width=600)
+    st.plotly_chart(fig)
     
     
 el=st.sidebar.multiselect('Select Education Level:', df['Education'].unique())
 filtered_df = df[df['Education'].isin(el)]
 
-with col2:
-    st.subheader("Attrition across Education level")
-    if filtered_df.empty:
-        st.warning("Select education level field(s) from left sidebar menu to see data.")
-    else:
-        education_mapping = {1: 'Below college',2: 'College',3: 'Bachelors',4: 'Masters',5: 'Doctor'}
-        filtered_df['EducationLabel'] = filtered_df['Education'].map(education_mapping)
-        fig = px.bar(filtered_df,x='EducationLabel',color='Attrition',
-                     title='Count of Education Level by Attrition',
-                     labels={'EducationLabel': 'Education Level', 'value': 'Count'},
-                     category_orders={'EducationLabel': list(education_mapping.values())},
-                     barmode='group',height=400,width=600)
-        st.plotly_chart(fig)
 
-
-
-
-with col1:
-    chart_type = st.sidebar.selectbox("Select Chart Type for Department: ", ["Countplot", "Pie Chart"])
-
-    if chart_type == "Countplot":
-        st.subheader("Attrition across Department")
-    
-        fig = px.histogram(df, x='Department', color='Attrition',
-                           title='Count of Department by Attrition',
-                           labels={"Department": "Department", "count": "Count"},
-                           barmode='group', height=400, width=600)
-        st.plotly_chart(fig)
-
-    elif chart_type == "Pie Chart":
-        st.subheader('Department Distribution')  
-    
-        attrition_counts = df['Department'].value_counts().reset_index()
-        attrition_counts.columns = ['Department', 'Count']
-    
-        fig = px.pie(attrition_counts, 
-                     names='Department', values='Count', 
-                     title='Distribution of Departments',
-                     labels={'Department': 'Department'}, hole=0.3, height=400, width=600)
-        st.plotly_chart(fig)
-
-with col2:
-    selection = st.sidebar.selectbox("Show data for Job Satisfaction distribution:", ["Yes", "No"])
-    if selection == "No":
-        st.warning("No data available for job satisfaction distribution.")
-    else:
-        st.subheader('Job Satisfaction Distribution \n(Low:1, Medium:2, High:3, Very High:4)')
-        satisfaction_counts = df['JobSatisfaction'].value_counts().reset_index()
-        satisfaction_counts.columns = ['JobSatisfaction', 'Count']
-        fig = px.pie(satisfaction_counts, 
-                     values='Count', 
-                     names='JobSatisfaction',
-                     labels={'Count': 'Percentage', 'JobSatisfaction': 'Job Satisfaction Level'},
-                     hole=0.5, height=400,width=600)
-        st.plotly_chart(fig)
-
-
-with col1:
-    selection1 = st.sidebar.selectbox("Show data for Job Role distribution:", ["Yes", "No"])
-    if selection1 == "No":
-        st.warning("No data available for job role distribution.")
-    else:
-        st.subheader("Job Role Distribution")
-        jobrole_counts = df['JobRole'].value_counts()
-        fig = px.pie(names=jobrole_counts.index, values=jobrole_counts.values,
-                     title='Distribution of Job roles',
-                     labels={"label": "Job Role", "value": "Count"},
-                     hole=0.5, height=400,width=600)
-        st.plotly_chart(fig)
-
-
-with col2:
-    st.subheader("Attrition across Job Roles")
-    fig = px.bar(df, x='JobRole', color='Attrition', title='Count of Job roles by Attrition',
-         labels={'JobRole': 'Job Role', 'value': 'Count'}, barmode='group', height=400,width=600)
+st.subheader("Attrition across Education level")
+if filtered_df.empty:
+    st.warning("Select education level field(s) from left sidebar menu to see data.")
+else:
+    education_mapping = {1: 'Below college',2: 'College',3: 'Bachelors',4: 'Masters',5: 'Doctor'}
+    filtered_df['EducationLabel'] = filtered_df['Education'].map(education_mapping)
+    fig = px.bar(filtered_df,x='EducationLabel',color='Attrition',
+                 title='Count of Education Level by Attrition',
+                 labels={'EducationLabel': 'Education Level', 'value': 'Count'},
+                 category_orders={'EducationLabel': list(education_mapping.values())},
+                 barmode='group',height=400,width=600)
     st.plotly_chart(fig)
 
 
-with col1:
-    chart_type = st.sidebar.selectbox("Select Chart Type for Work life balance: ", ["Countplot", "Pie Chart"])
-    if chart_type == "Countplot":
-        st.subheader("Attrition across Work Life Balance")
-        fig = px.histogram(df, x='WorkLifeBalance', color='Attrition',
-                           title='(1: "Bad", 2: "Good", 3: "Better", 4: "Best")',
-                           labels={"WorkLifeBalance": "Work Life Balance", "count": "Count"},
-                           barmode='group', height=400,width=600)
-        st.plotly_chart(fig)
-    elif chart_type == "Pie Chart":
-        st.subheader('Work Life Balance Distribution')
-        label_mapping = {1: "Bad", 2: "Good", 3: "Better", 4: "Best"}
-        df['WorkLifeBalanceLabel'] = df['WorkLifeBalance'].map(label_mapping)
-        work_life_balance_counts = df['WorkLifeBalanceLabel'].value_counts().reset_index()
-        work_life_balance_counts.columns = ['Work Life Balance', 'Count']
-        fig = px.pie(work_life_balance_counts, 
-                     names='Work Life Balance', 
-                     values='Count', 
-                     title='Distribution of Work-Life Balance',
-                     labels={'Work Life Balance': 'Balance Level'},hole=0.3, height=400,width=600)
-        st.plotly_chart(fig)
+chart_type = st.sidebar.selectbox("Select Chart Type for Department: ", ["Countplot", "Pie Chart"])
+
+if chart_type == "Countplot":
+    st.subheader("Attrition across Department")
+
+    fig = px.histogram(df, x='Department', color='Attrition',
+                       title='Count of Department by Attrition',
+                       labels={"Department": "Department", "count": "Count"},
+                       barmode='group', height=400, width=600)
+    st.plotly_chart(fig)
+
+elif chart_type == "Pie Chart":
+    st.subheader('Department Distribution')  
+
+    attrition_counts = df['Department'].value_counts().reset_index()
+    attrition_counts.columns = ['Department', 'Count']
+
+    fig = px.pie(attrition_counts, 
+                 names='Department', values='Count', 
+                 title='Distribution of Departments',
+                 labels={'Department': 'Department'}, hole=0.3, height=400, width=600)
+    st.plotly_chart(fig)
+
+
+selection = st.sidebar.selectbox("Show data for Job Satisfaction distribution:", ["Yes", "No"])
+if selection == "No":
+    st.warning("No data available for job satisfaction distribution.")
+else:
+    st.subheader('Job Satisfaction Distribution \n(Low:1, Medium:2, High:3, Very High:4)')
+    satisfaction_counts = df['JobSatisfaction'].value_counts().reset_index()
+    satisfaction_counts.columns = ['JobSatisfaction', 'Count']
+    fig = px.pie(satisfaction_counts, 
+                 values='Count', 
+                 names='JobSatisfaction',
+                 labels={'Count': 'Percentage', 'JobSatisfaction': 'Job Satisfaction Level'},
+                 hole=0.5, height=400,width=600)
+    st.plotly_chart(fig)
+
+
+
+selection1 = st.sidebar.selectbox("Show data for Job Role distribution:", ["Yes", "No"])
+if selection1 == "No":
+    st.warning("No data available for job role distribution.")
+else:
+    st.subheader("Job Role Distribution")
+    jobrole_counts = df['JobRole'].value_counts()
+    fig = px.pie(names=jobrole_counts.index, values=jobrole_counts.values,
+                 title='Distribution of Job roles',
+                 labels={"label": "Job Role", "value": "Count"},
+                 hole=0.5, height=400,width=600)
+    st.plotly_chart(fig)
+
+
+
+st.subheader("Attrition across Job Roles")
+fig = px.bar(df, x='JobRole', color='Attrition', title='Count of Job roles by Attrition',
+     labels={'JobRole': 'Job Role', 'value': 'Count'}, barmode='group', height=400,width=600)
+st.plotly_chart(fig)
+
+
+
+chart_type = st.sidebar.selectbox("Select Chart Type for Work life balance: ", ["Countplot", "Pie Chart"])
+if chart_type == "Countplot":
+    st.subheader("Attrition across Work Life Balance")
+    fig = px.histogram(df, x='WorkLifeBalance', color='Attrition',
+                       title='(1: "Bad", 2: "Good", 3: "Better", 4: "Best")',
+                       labels={"WorkLifeBalance": "Work Life Balance", "count": "Count"},
+                       barmode='group', height=400,width=600)
+    st.plotly_chart(fig)
+elif chart_type == "Pie Chart":
+    st.subheader('Work Life Balance Distribution')
+    label_mapping = {1: "Bad", 2: "Good", 3: "Better", 4: "Best"}
+    df['WorkLifeBalanceLabel'] = df['WorkLifeBalance'].map(label_mapping)
+    work_life_balance_counts = df['WorkLifeBalanceLabel'].value_counts().reset_index()
+    work_life_balance_counts.columns = ['Work Life Balance', 'Count']
+    fig = px.pie(work_life_balance_counts, 
+                 names='Work Life Balance', 
+                 values='Count', 
+                 title='Distribution of Work-Life Balance',
+                 labels={'Work Life Balance': 'Balance Level'},hole=0.3, height=400,width=600)
+    st.plotly_chart(fig)
 
 
 selected_genders = st.sidebar.multiselect("Select Gender:",df["Gender"].unique())
 filtered_df1 = df[df["Gender"].isin(selected_genders)]
 
-with col2:
-    st.subheader("Job Satisfaction across Gender")
-    if filtered_df1.empty:
-        st.warning("Select gender from left sidebar menu to see data.")
-    else:
-        fig = px.histogram(filtered_df1, 
-                   x="Gender", 
-                   color="JobSatisfaction",
-                   title="Count of Gender by Job Satisfaction",
-                   labels={'Gender': 'Gender', 'JobSatisfaction': 'Job Satisfaction Level'},
-                   category_orders={"Gender": selected_genders},
-                   barmode='group', height=400,width=600)
-        st.plotly_chart(fig)
+
+st.subheader("Job Satisfaction across Gender")
+if filtered_df1.empty:
+    st.warning("Select gender from left sidebar menu to see data.")
+else:
+    fig = px.histogram(filtered_df1, 
+               x="Gender", 
+               color="JobSatisfaction",
+               title="Count of Gender by Job Satisfaction",
+               labels={'Gender': 'Gender', 'JobSatisfaction': 'Job Satisfaction Level'},
+               category_orders={"Gender": selected_genders},
+               barmode='group', height=400,width=600)
+    st.plotly_chart(fig)
 
 
 import numpy as np
@@ -268,7 +265,7 @@ if selected_features:
         # Converting to Plotly
         fig = px.histogram(df, x=feature, color='Attrition', 
                            title=f'Distribution of {feature} by Attrition',
-                           marginal="rug",template="plotly_white", nbins=30, height=500,width=1200) 
+                           marginal="rug",template="plotly_white", nbins=30, height=400, width=600) 
         st.plotly_chart(fig)
 else:
     st.warning("Please select one or more features from the left sidebar menu.")
